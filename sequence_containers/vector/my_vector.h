@@ -63,7 +63,7 @@ public:
     vector() : start(nullptr), finish(nullptr), end_of_storage(nullptr) {}
     vector(size_type n, const_reference x) { fill_initialize(n, x); }
 
-    explicit vector(size_type n) { fill_initialize(n, T()); } // 防止 vector a = 1这样的出现
+    explicit vector(size_type n) { fill_initialize(n, T()); } // explicit会禁止隐式转换, 防止 vector a = 1这样的出现
 
     ~vector()
     {
