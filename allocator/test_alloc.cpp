@@ -1,7 +1,8 @@
-#include <iostream>
 #include <algorithm>
-#include "my_alloc.h"
+#include <iostream>
 #include <vector>
+
+#include "my_alloc.h"
 using namespace std;
 
 int main()
@@ -30,19 +31,22 @@ int main()
     a = static_cast<int *>(MOG::default_alloc::allocate(1 * sizeof(int)));
     a[0] = 1;
     cout << a[0];
-    a = static_cast<int *>(MOG::default_alloc::reallocate(a, 1 * sizeof(int), 10 * sizeof(int)));
+    a = static_cast<int *>(
+        MOG::default_alloc::reallocate(a, 1 * sizeof(int), 10 * sizeof(int)));
     for (int i = 1; i < 10; ++i)
     {
         a[i] = i + 10;
         cout << a[i];
     }
-    a = static_cast<int *>(MOG::default_alloc::reallocate(a, 10 * sizeof(int), 100 * sizeof(int)));
+    a = static_cast<int *>(
+        MOG::default_alloc::reallocate(a, 10 * sizeof(int), 100 * sizeof(int)));
     for (int i = 10; i < 100; ++i)
     {
         a[i] = i + 100;
         cout << a[i];
     }
-    a = static_cast<int *>(MOG::default_alloc::reallocate(a, 100 * sizeof(int), 1000 * sizeof(int)));
+    a = static_cast<int *>(
+        MOG::default_alloc::reallocate(a, 100 * sizeof(int), 1000 * sizeof(int)));
     for (int i = 100; i < 1000; ++i)
     {
         a[i] = i + 1000;

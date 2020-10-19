@@ -1,19 +1,20 @@
 #ifndef _MY_ALLOCATOR_
 #define _MY_ALLOCATOR_
 
-#include <new>
+#include <climits>
 #include <cstddef>
 #include <cstdlib>
-#include <climits>
 #include <iostream>
+#include <new>
 
 namespace MOG
 {
 template <class T>
 inline T *_allocate(ptrdiff_t size, T *)
 {
-    // 这个函数是用来设置默认内存申请函数(operator new和operator new[])申请内存失败时调用的方法
-    // 设为nullptr是让new 不抛出异常（默认是会抛出bad_alloc）
+    // 这个函数是用来设置默认内存申请函数(operator new和operator
+    // new[])申请内存失败时调用的方法 设为nullptr是让new
+    // 不抛出异常（默认是会抛出bad_alloc）
     std::set_new_handler(nullptr);
     T *tmp = static_cast<T *>(::operator new(size * sizeof(T))); // 分配内存
 
@@ -77,10 +78,19 @@ public:
         _construct(p, value);
     }
 
-    void destroy(pointer p) { _destroy(p); }
+    void destroy(pointer p)
+    {
+        _destroy(p);
+    }
 
-    pointer address(reference x) { return &x; }
-    const_pointer const_address(const_reference x) { return &x; }
+    pointer address(reference x)
+    {
+        return &x;
+    }
+    const_pointer const_address(const_reference x)
+    {
+        return &x;
+    }
 
     size_type max_size() const
     {

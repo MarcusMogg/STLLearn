@@ -4,8 +4,8 @@
 #include "../../allocator/my_alloc.h"
 #include "../../allocator/my_construct.h"
 
-#include <memory>
 #include <algorithm>
+#include <memory>
 
 namespace MOG
 {

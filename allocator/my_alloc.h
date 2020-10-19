@@ -2,13 +2,14 @@
 #ifndef _MOG_ALLOC_H_
 #define _MOG_ALLOC_H_
 
+#include <cstddef>
 #include <cstdlib>
 #include <cstring>
-#include <cstddef>
 
 #ifndef __THROW_BAD_ALLOC
 #if defined(__STL_NO_BAD_ALLOC) || !defined(__STL_USE_EXCEPTIONS)
 #include <stdio.h>
+
 #include <cstdlib>
 #define __THROW_BAD_ALLOC               \
     fprintf(stderr, "out of memory\n"); \
@@ -22,16 +23,17 @@
 namespace MOG
 {
 
-// 单纯地转调用，调用传递给配置器(第一级或第二级)；多一层包装，使 _Alloc 具备标准接口
+// 单纯地转调用，调用传递给配置器(第一级或第二级)；多一层包装，使 _Alloc
+// 具备标准接口
 template <class _Tp, class _Alloc>
 class simple_alloc
 {
-
 public:
     // 配置 n 个元素
     static _Tp *allocate(size_t __n)
     {
-        return 0 == __n ? nullptr : static_cast<_Tp *>(_Alloc::allocate(__n * sizeof(_Tp)));
+        return 0 == __n ? nullptr
+                        : static_cast<_Tp *>(_Alloc::allocate(__n * sizeof(_Tp)));
     }
     static _Tp *allocate(void)
     {
@@ -88,9 +90,10 @@ public:
         return result;
     }
 
-    // 以下仿真 C++ 的 set_new_handler()，可以通过它指定自己的 out-of-memory handler
-    // 为什么不使用 C++ new-handler 机制，因为第一级配置器并没有 ::operator new 来配置内存
-    // 为什么不用::operator new，历史原因？或者没有realloc？不懂
+    // 以下仿真 C++ 的 set_new_handler()，可以通过它指定自己的 out-of-memory
+    // handler 为什么不使用 C++ new-handler 机制，因为第一级配置器并没有
+    // ::operator new 来配置内存 为什么不用::operator
+    // new，历史原因？或者没有realloc？不懂
     static handler *__set_malloc_handler(handler *f)
     {
         handler *old = __malloc_alloc_oom_handler;
@@ -143,7 +146,8 @@ private:
     {
         return (bytes + ALIGN - 1) & ~(ALIGN - 1);
     }
-    union obj {
+    union obj
+    {
         union obj *nxt;
         char data[1];
     };
@@ -238,8 +242,7 @@ inline char *default_alloc::chunk_alloc(size_t size, int &nobjs)
         return result;
     }
     // 剩余内存太少，一个都不够
-    size_t bytes_to_get =
-        2 * total_bytes + round_up(heap_size >> 4);
+    size_t bytes_to_get = 2 * total_bytes + round_up(heap_size >> 4);
     if (left_bytes > 0) // 把边边角角的这些内存存起来，不能浪费
     {
         obj **my_free_list = free_list + freelist_index(left_bytes); // 剩余内存一定是八的倍数
@@ -288,9 +291,9 @@ inline void *default_alloc::reallocate(void *p, size_t old_sz, size_t new_sz)
     return result;
 }
 
-default_alloc::obj *default_alloc::free_list[default_alloc::N_FREELISTS] =
-    {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
-     nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
+default_alloc::obj *default_alloc::free_list[default_alloc::N_FREELISTS] = {
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
+    nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
 char *default_alloc::start_free = nullptr;
 char *default_alloc::end_free = nullptr;
 size_t default_alloc::heap_size = 0;

@@ -1,0 +1,15 @@
+# find allocator/ iterator/ sequence_containers/ -type f -name '*.c' -o -name '*.cpp' -o -name '*.h' | xargs -i clang-format -i {}
+
+BasedOnStyle: LLVM
+
+Standard: c++11
+
+UseTab: Never
+IndentWidth: 4
+TabWidth: 4
+
+BreakBeforeBraces: Allman
+AllowShortIfStatementsOnASingleLine: false
+IndentCaseLabels: false
+ColumnLimit: 0
+AccessModifierOffset: -4
