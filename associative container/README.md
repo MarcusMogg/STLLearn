@@ -12,3 +12,14 @@
 
 
 
+## 红黑树和哈希表的对比
+
+1. map始终保证遍历的时候是按key的大小顺序的，hashmap是无序的。
+2. map可以做范围查找，而hashmap不可以。原因和上面相同
+3. map的iterator可以双向遍历，这样可以很容易查找到当前map中刚好大于这个key的值，或者刚好小于这个key的值（lower_bound , upper_bound）
+4. hashmap的内存效率比map差，无效内存多
+5. hashmap查找快,O(1) 对 O(log n)
+6. hashmap查找时候要算hash，这个最坏时间复杂度是O(M)（M是key字符串的长度）
+7. hashmap实现简单。
+8. 多线程的时候，hashmap采用开链式的话可以针对一个桶进行加锁，红黑树有线程安全的实现吗？
+9. map的查找效率比hashmap稳定。很多场合是需要实时性，比如各种嵌入式设备，这时候必须保证最坏复杂度（zhihu看到的）
